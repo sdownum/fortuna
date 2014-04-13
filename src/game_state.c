@@ -11,6 +11,8 @@
 FSTATUS new_game(GameState *state) 
 {
 	state->user = getlogin();
+	state->start_time = time(NULL);
+	state->end_time = 0;
 	return 0;
 }
 
