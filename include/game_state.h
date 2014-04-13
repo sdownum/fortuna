@@ -4,6 +4,7 @@
 #define __GAME_STATE_H__
 
 #include <wchar.h>
+#include <unistd.h>
 
 // Game Function Return Codes
 typedef int FSTATUS;
@@ -18,6 +19,7 @@ typedef struct _GameState {
 	int isNewGame;
 	int startDate;
 	int endDate;
+	char* user;
 } GameState;
 
 
