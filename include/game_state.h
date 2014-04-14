@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <time.h>
 
+#include "player.h"
+
 // Game Function Return Codes
 typedef int FSTATUS;
 
@@ -21,6 +23,7 @@ typedef struct _GameState {
 	time_t start_time;
 	time_t end_time;
 	char* user;
+	Player player;
 } GameState;
 
 
