@@ -23,6 +23,7 @@ typedef struct _GameState {
 	time_t start_time;
 	time_t end_time;
 	char* user;
+	char savefile[1024];
 	Player player;
 } GameState;
 

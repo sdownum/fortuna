@@ -11,8 +11,9 @@ int main(int argc, char* argv[])
 {
 
 	GameState game;
+	int dbg_game;
 
-	new_game(&game);
+	dbg_game = new_game(&game);
 
 	setlocale(LC_ALL, "");
 	initscr(); cbreak(); noecho();
