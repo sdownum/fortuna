@@ -19,7 +19,7 @@ FSTATUS new_game(GameState *state)
 	int fd;
 	ssize_t b_written;	
 
-	state->user = getlogin();
+	strncpy(state->user, getlogin(), 1024);
 	state->start_time = time(NULL);
 	state->end_time = 0;
 
@@ -40,7 +40,7 @@ FSTATUS new_game(GameState *state)
 	if (fd < 0)
 		return 1;
 	
-	b_written = write(fd, "fortuna", 7); 
+	b_written = write(fd, &state, sizeof(GameState)); 
 	
 	if (b_written < 0)
 		return 2;	
