@@ -1,6 +1,7 @@
 /* game_state.c */
 
 #include <sys/types.h>
+#include <sys/uio.h>
 #include <pwd.h>
 #include <uuid/uuid.h>
 #include <string.h>
@@ -40,7 +41,7 @@ FSTATUS new_game(GameState *state)
 	if (fd < 0)
 		return 1;
 	
-	b_written = write(fd, &state, sizeof(GameState)); 
+	b_written = write(fd, state, sizeof(GameState)); 
 	
 	if (b_written < 0)
 		return 2;	
@@ -50,5 +51,33 @@ FSTATUS new_game(GameState *state)
 	return 0;
 }
 
-FSTATUS get_game_state(GameState *state);
+FSTATUS get_game_state(GameState *state) 
+{
+	ssize_t b_written;	
+	int fd;
+	char savefile[1024];
+	char user[1024];
+	struct passwd *pw;
+
+	strncpy(user, getlogin(), 1024);
+	pw = getpwnam(user);
+	strncpy(savefile, pw->pw_dir, 1000);
+	strncat(savefile, "/.forunarc", 10);
+
+	// Create a stub save file
+	fd = open(savefile, O_RDONLY);
+
+	if (fd < 0)
+		return new_game(state);
+	
+	b_written = read(fd, state, sizeof(GameState)); 
+	
+	if (b_written < 0)
+		return 2;	
+
+	close(fd);
+
+	return 0;
+}
+
 FSTATUS save_game_state(GameState *state, wchar_t *filename);

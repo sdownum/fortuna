@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	GameState game;
 	int dbg_game;
 
-	dbg_game = new_game(&game);
+	dbg_game = get_game_state(&game);
 
 	setlocale(LC_ALL, "");
 	initscr(); cbreak(); noecho();
