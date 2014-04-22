@@ -25,6 +25,15 @@ int main(int argc, char* argv[])
 	waddwstr(stdscr, L"Welcome, ");
 	waddstr(stdscr, game.user);
 	waddwstr(stdscr, L"!\n");
+
+	if (game.player.state == PlayerStateDead) {
+		waddstr(stdscr, game.user);
+		waddwstr(stdscr, L" has died.\n\n");
+		new_game(&game);
+	} else {
+		start_game(&game);
+	}
+
 	waddwstr(stdscr, L"Press a key to exit.\n");
 	getch();
 

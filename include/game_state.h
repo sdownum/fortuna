@@ -30,8 +30,8 @@ typedef struct _GameState {
 
 FSTATUS new_game(GameState *state);
 FSTATUS get_game_state(GameState *state);
-FSTATUS save_game_state(GameState *state, wchar_t *filename);
-
+FSTATUS save_game_state(GameState *state);
+void start_game(GameState *state);
 
 
 #endif

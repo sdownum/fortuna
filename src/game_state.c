@@ -17,8 +17,6 @@
 FSTATUS new_game(GameState *state) 
 {
 	Player p;
-	int fd;
-	ssize_t b_written;	
 
 	strncpy(state->user, getlogin(), 1024);
 	state->start_time = time(NULL);
@@ -26,6 +24,8 @@ FSTATUS new_game(GameState *state)
 
 	p.level = 1;
 	p.experience = 0;
+	p.health = 10;
+	p.state = PlayerStateAlive;
 	strncpy(p.name, state->user, 255);	
 
 	state->player = p;
@@ -35,20 +35,8 @@ FSTATUS new_game(GameState *state)
 	strncpy(state->savefile, pw->pw_dir, 1000);
 	strncat(state->savefile, "/.forunarc", 10);
 
-	// Create a stub save file
-	fd = open(state->savefile, O_WRONLY | O_CREAT, 0700);
-
-	if (fd < 0)
-		return 1;
-	
-	b_written = write(fd, state, sizeof(GameState)); 
-	
-	if (b_written < 0)
-		return 2;	
-
-	close(fd);
-
-	return 0;
+	// insert save here
+	return save_game_state(state);
 }
 
 FSTATUS get_game_state(GameState *state) 
@@ -80,4 +68,32 @@ FSTATUS get_game_state(GameState *state)
 	return 0;
 }
 
-FSTATUS save_game_state(GameState *state, wchar_t *filename);
+FSTATUS save_game_state(GameState *state)
+{
+	int fd;
+	ssize_t b_written;	
+
+	fd = open(state->savefile, O_WRONLY | O_CREAT, 0700);
+
+	if (fd < 0)
+		return 1;
+	
+	b_written = write(fd, state, sizeof(GameState)); 
+	
+	if (b_written < 0)
+		return 2;	
+
+	close(fd);
+	return 0;
+};
+
+void start_game(GameState *state)
+{
+	while(state->player.state != PlayerStateDead) {
+		state->player.state = PlayerStateDead;
+		state->player.health = 0;	
+		save_game_state(state);
+	}
+
+	return; 
+}

@@ -10,3 +10,4 @@ fortuna.o: src/fortuna.c
 clean:
 	rm *.o
 	rm fortuna
+	rm ~/.fortunarc
