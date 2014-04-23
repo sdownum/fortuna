@@ -33,7 +33,7 @@ FSTATUS new_game(GameState *state)
 	struct passwd *pw;
 	pw = getpwnam(state->user);
 	strncpy(state->savefile, pw->pw_dir, 1000);
-	strncat(state->savefile, "/.forunarc", 10);
+	strncat(state->savefile, "/.fortunarc", 11);
 
 	// insert save here
 	return save_game_state(state);
@@ -50,7 +50,7 @@ FSTATUS get_game_state(GameState *state)
 	strncpy(user, getlogin(), 1024);
 	pw = getpwnam(user);
 	strncpy(savefile, pw->pw_dir, 1000);
-	strncat(savefile, "/.forunarc", 10);
+	strncat(savefile, "/.fortunarc", 11);
 
 	// Create a stub save file
 	fd = open(savefile, O_RDONLY);

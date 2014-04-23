@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 	keypad(stdscr, TRUE);
 
 	waddwstr(stdscr, L"Welcome to Fortuna - Version 0.1\n");
-	waddwstr(stdscr, L"Build 3, 12 Apr 2014\n\n");
+	waddwstr(stdscr, L"Build 4, 22 Apr 2014\n\n");
 	waddwstr(stdscr, L"Welcome, ");
 	waddstr(stdscr, game.user);
 	waddwstr(stdscr, L"!\n");
