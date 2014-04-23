@@ -25,8 +25,21 @@ int main(int argc, char* argv[])
 	waddwstr(stdscr, L"Welcome, ");
 	waddstr(stdscr, game.user);
 	waddwstr(stdscr, L"!\n");
+	mvaddch(11, 39, '*');
+	mvaddch(11, 40, '*');
+	mvaddch(11, 41, '*');
+	mvaddch(13, 40, '*');
+	mvaddch(12, 39, '*');
+	mvaddch(12, 41, '*');
+	mvaddch(12, 40, '@');
+	mvaddch(13, 39, '*');
+	mvaddch(13, 40, '*');
+	mvaddch(13, 41, '*');
+	mvaddch(20, 0, '\n');
 
 	if (game.player.state == PlayerStateDead) {
+		mvaddch(12, 40, 'X');
+		mvaddch(20, 0, '\n');
 		waddstr(stdscr, game.user);
 		waddwstr(stdscr, L" has died.\n\n");
 		new_game(&game);
