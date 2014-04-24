@@ -7,6 +7,8 @@
 
 #include "fortuna.h"
 
+void gen_map(int x, int y, int size, int width);
+
 int main(int argc, char* argv[])
 {
 
@@ -25,16 +27,8 @@ int main(int argc, char* argv[])
 	waddwstr(stdscr, L"Welcome, ");
 	waddstr(stdscr, game.user);
 	waddwstr(stdscr, L"!\n");
-	mvaddch(11, 39, '*');
-	mvaddch(11, 40, '*');
-	mvaddch(11, 41, '*');
-	mvaddch(13, 40, '*');
-	mvaddch(12, 39, '*');
-	mvaddch(12, 41, '*');
+	gen_map(39, 11, 15, 5);
 	mvaddch(12, 40, '@');
-	mvaddch(13, 39, '*');
-	mvaddch(13, 40, '*');
-	mvaddch(13, 41, '*');
 	mvaddch(20, 0, '\n');
 
 	if (game.player.state == PlayerStateDead) {
@@ -55,4 +49,24 @@ int main(int argc, char* argv[])
 	wprintf(L"Good-bye. We'll see you again soon.\n");
 
 	return EXIT_SUCCESS;
+}
+
+void gen_map(int x, int y, int size, int width)
+{
+	int orig_x = x;
+	int x_len = 1;
+
+	for (int i = 0; i < size; i++)
+	{
+		mvaddch(y, x, '.');
+
+		if (x_len == width) {
+			x = orig_x;
+			x_len = 1;
+			y++;
+		} else {
+			x++;
+			x_len++;
+		}
+	}
 }
