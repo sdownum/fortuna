@@ -2,7 +2,6 @@
 #define __FORTUNA_H__
 
 #include "game_state.h"
-#include "map.h"
 
 #define FSTATUS_SUCCESS 		0
 #define FSTATUS_FAILURE 		1

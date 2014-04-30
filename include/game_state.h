@@ -8,6 +8,7 @@
 #include <time.h>
 
 #include "player.h"
+#include "map.h"
 
 // Game Function Return Codes
 typedef int FSTATUS;

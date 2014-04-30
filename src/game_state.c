@@ -7,8 +7,10 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <ncurses.h>
 
 #include "game_state.h"
+
 
 //! Creates a new game.
 /*!
@@ -89,6 +91,20 @@ FSTATUS save_game_state(GameState *state)
 
 void start_game(GameState *state)
 {
+	gen_map(39, 11, 15, 5);
+	mvaddch(12, 40, '@');
+	mvaddch(20, 0, '\n');
+
+	if (state->player.state == PlayerStateDead) {
+		mvaddch(12, 40, 'X');
+		mvaddch(20, 0, '\n');
+		waddstr(stdscr, state->user);
+		waddwstr(stdscr, L" has died.\n\n");
+		new_game(state);
+		return;
+	}
+
+	// game loop
 	while(state->player.state != PlayerStateDead) {
 		state->player.state = PlayerStateDead;
 		state->player.health = 0;	
