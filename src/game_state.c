@@ -106,6 +106,15 @@ void start_game(GameState *state)
 
 	// game loop
 	while(state->player.state != PlayerStateDead) {
+		char move = '.';
+		while (move != 'q') {
+			waddstr(stdscr, "Move: ");
+			move = getch();
+			waddch(stdscr, move);
+			sleep(1);
+			mvaddch(20, 0, '\n');
+		}
+		waddstr(stdscr, "\n");
 		state->player.state = PlayerStateDead;
 		state->player.health = 0;	
 		save_game_state(state);
