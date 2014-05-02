@@ -91,13 +91,22 @@ FSTATUS save_game_state(GameState *state)
 
 void start_game(GameState *state)
 {
-	gen_map(39, 11, 15, 5);
-	mvaddch(12, 40, '@');
-	mvaddch(20, 0, '\n');
+	int map_xstart = 39;
+	int map_ystart = 11;
+	int map_len = 25;
+	int map_rows = 5;
+	int player_x = 40;
+	int player_y = 12;
+	int info_x = 0;
+	int info_y = 20;
+
+	gen_map(map_xstart, map_ystart, map_len, map_rows);
+	mvaddch(player_y, player_x, '@');
+	mvaddch(info_y, info_x, '\n');
 
 	if (state->player.state == PlayerStateDead) {
-		mvaddch(12, 40, 'X');
-		mvaddch(20, 0, '\n');
+		mvaddch(player_y, player_x, 'X');
+		mvaddch(info_y, info_x, '\n');
 		waddstr(stdscr, state->user);
 		waddwstr(stdscr, L" has died.\n\n");
 		new_game(state);
@@ -106,13 +115,34 @@ void start_game(GameState *state)
 
 	// game loop
 	while(state->player.state != PlayerStateDead) {
-		char move = '.';
+		char move = ' ';
 		while (move != 'q') {
 			waddstr(stdscr, "Move: ");
-			move = getch();
 			waddch(stdscr, move);
-			sleep(1);
-			mvaddch(20, 0, '\n');
+			move = getch();
+			switch (move) {
+				case 'a':
+					if (player_x - 1 >= map_xstart)
+						player_x--;
+					break;;
+				case 'w':
+					if (player_y - 1 >= map_ystart)
+						player_y--;
+					break;;
+				case 's':
+					if (player_y + 1 < map_ystart + (map_len/map_rows))
+						player_y++;
+					break;;
+				case 'd':
+					if (player_x + 1 < map_xstart + map_rows)
+						player_x++;
+					break;;
+				default:
+					break;;
+			}
+			gen_map(map_xstart, map_ystart, map_len, map_rows);
+			mvaddch(player_y, player_x, '@');
+			mvaddch(info_y, info_x, '\n');
 		}
 		waddstr(stdscr, "\n");
 		state->player.state = PlayerStateDead;
