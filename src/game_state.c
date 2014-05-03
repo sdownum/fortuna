@@ -11,6 +11,8 @@
 
 #include "game_state.h"
 
+#define PLAYER_START_X 40
+#define PLAYER_START_Y 12
 
 //! Creates a new game.
 /*!
@@ -28,6 +30,8 @@ FSTATUS new_game(GameState *state)
 	p.experience = 0;
 	p.health = 10;
 	p.state = PlayerStateAlive;
+	p.pos_x = PLAYER_START_X;
+	p.pos_y = PLAYER_START_Y;
 	strncpy(p.name, state->user, 255);	
 
 	state->player = p;
@@ -101,11 +105,11 @@ void start_game(GameState *state)
 	int info_y = 20;
 
 	gen_map(map_xstart, map_ystart, map_len, map_rows);
-	mvaddch(player_y, player_x, '@');
+	mvaddch(state->player.pos_y, state->player.pos_x, '@');
 	mvaddch(info_y, info_x, '\n');
 
 	if (state->player.state == PlayerStateDead) {
-		mvaddch(player_y, player_x, 'X');
+		mvaddch(state->player.pos_y, state->player.pos_x, 'X');
 		mvaddch(info_y, info_x, '\n');
 		waddstr(stdscr, state->user);
 		waddwstr(stdscr, L" has died.\n\n");
@@ -122,32 +126,38 @@ void start_game(GameState *state)
 			move = getch();
 			switch (move) {
 				case 'a':
-					if (player_x - 1 >= map_xstart)
-						player_x--;
+					if (state->player.pos_x - 1 >= map_xstart)
+						state->player.pos_x--;
 					break;;
 				case 'w':
-					if (player_y - 1 >= map_ystart)
-						player_y--;
+					if (state->player.pos_y - 1 >= map_ystart)
+						state->player.pos_y--;
 					break;;
 				case 's':
-					if (player_y + 1 < map_ystart + (map_len/map_rows))
-						player_y++;
+					if (state->player.pos_y + 1 < map_ystart + (map_len/map_rows))
+						state->player.pos_y++;
 					break;;
 				case 'd':
-					if (player_x + 1 < map_xstart + map_rows)
-						player_x++;
+					if (state->player.pos_x + 1 < map_xstart + map_rows)
+						state->player.pos_x++;
+					break;;
+				case 'A':
+						state->player.state = PlayerStateDead;
+						state->player.health = 0;	
+						waddstr(stdscr, "\n");
+						mvaddstr(0, 40, "Abandoning game...");
+						move = 'q';;		
 					break;;
 				default:
 					break;;
 			}
 			gen_map(map_xstart, map_ystart, map_len, map_rows);
-			mvaddch(player_y, player_x, '@');
+			mvaddch(state->player.pos_y, state->player.pos_x, '@');
 			mvaddch(info_y, info_x, '\n');
 		}
 		waddstr(stdscr, "\n");
-		state->player.state = PlayerStateDead;
-		state->player.health = 0;	
 		save_game_state(state);
+		break;
 	}
 
 	return; 

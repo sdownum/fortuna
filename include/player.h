@@ -3,6 +3,7 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
+
 //! The PlayerState enum
 /*!
 	A list of states a player object may have.
@@ -21,6 +22,8 @@ typedef struct _Player {
 	int level;
 	int experience;
 	int health;
+	int pos_x;
+	int pos_y;
 	PlayerState state;
 } Player;
 
