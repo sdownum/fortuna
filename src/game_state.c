@@ -29,6 +29,7 @@ FSTATUS new_game(GameState *state)
 	p.level = 1;
 	p.experience = 0;
 	p.health = 10;
+	p.move_count = 0;
 	p.state = PlayerStateAlive;
 	p.pos_x = PLAYER_START_X;
 	p.pos_y = PLAYER_START_Y;
@@ -103,6 +104,7 @@ void start_game(GameState *state)
 	int player_y = 12;
 	int info_x = 0;
 	int info_y = 20;
+	char buf[256];
 
 	gen_map(map_xstart, map_ystart, map_len, map_rows);
 	mvaddch(state->player.pos_y, state->player.pos_x, '@');
@@ -112,7 +114,9 @@ void start_game(GameState *state)
 		mvaddch(state->player.pos_y, state->player.pos_x, 'X');
 		mvaddch(info_y, info_x, '\n');
 		waddstr(stdscr, state->user);
-		waddwstr(stdscr, L" has died.\n\n");
+		waddwstr(stdscr, L" has died.\n");
+		sprintf(buf, "Number of moves: %d\n", state->player.move_count);
+		waddstr(stdscr, buf);
 		new_game(state);
 		return;
 	}
@@ -124,6 +128,7 @@ void start_game(GameState *state)
 			waddstr(stdscr, "Move: ");
 			waddch(stdscr, move);
 			move = getch();
+			state->player.move_count++;
 			switch (move) {
 				case 'a':
 					if (state->player.pos_x - 1 >= map_xstart)
@@ -149,6 +154,7 @@ void start_game(GameState *state)
 						move = 'q';;		
 					break;;
 				default:
+					state->player.move_count--;
 					break;;
 			}
 			gen_map(map_xstart, map_ystart, map_len, map_rows);

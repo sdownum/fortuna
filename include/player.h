@@ -24,6 +24,7 @@ typedef struct _Player {
 	int health;
 	int pos_x;
 	int pos_y;
+	int move_count;
 	PlayerState state;
 } Player;
 
