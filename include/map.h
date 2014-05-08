@@ -8,9 +8,23 @@
 #define PLAYER_START_X 40
 #define PLAYER_START_Y 12
 
+
+//! The Map structure
+/*!
+	A Map object represents the current level in game.
+*/
+
+typedef struct _Map {
+	int xstart;
+	int ystart;
+	int len;
+	int rows;
+}Map;
+
+
 //! The gen_map function
 /*!
 	A function to create a random map for a game level.
 */
-void gen_map(int x, int y, int size, int width);
+void gen_map(Map map);
 #endif

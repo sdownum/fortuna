@@ -92,21 +92,23 @@ FSTATUS save_game_state(GameState *state)
 
 	close(fd);
 	return 0;
-};
+}
 
 void start_game(GameState *state)
 {
-	int map_xstart = 39;
-	int map_ystart = 11;
-	int map_len = 25;
-	int map_rows = 5;
+	Map map;
 	int player_x = 40;
 	int player_y = 12;
 	int info_x = 0;
 	int info_y = 20;
 	char buf[256];
 
-	gen_map(map_xstart, map_ystart, map_len, map_rows);
+	map.xstart = 39;
+	map.ystart = 11;
+	map.len = 25;
+	map.rows = 5;
+
+	gen_map(map);
 	mvaddch(state->player.pos_y, state->player.pos_x, '@');
 	mvaddch(info_y, info_x, '\n');
 
@@ -131,19 +133,19 @@ void start_game(GameState *state)
 			state->player.move_count++;
 			switch (move) {
 				case 'a':
-					if (state->player.pos_x - 1 >= map_xstart)
+					if (state->player.pos_x - 1 >= map.xstart)
 						state->player.pos_x--;
 					break;;
 				case 'w':
-					if (state->player.pos_y - 1 >= map_ystart)
+					if (state->player.pos_y - 1 >= map.ystart)
 						state->player.pos_y--;
 					break;;
 				case 's':
-					if (state->player.pos_y + 1 < map_ystart + (map_len/map_rows))
+					if (state->player.pos_y + 1 < map.ystart + (map.len/map.rows))
 						state->player.pos_y++;
 					break;;
 				case 'd':
-					if (state->player.pos_x + 1 < map_xstart + map_rows)
+					if (state->player.pos_x + 1 < map.xstart + map.rows)
 						state->player.pos_x++;
 					break;;
 				case 'A':
@@ -157,7 +159,7 @@ void start_game(GameState *state)
 					state->player.move_count--;
 					break;;
 			}
-			gen_map(map_xstart, map_ystart, map_len, map_rows);
+		 	gen_map(map);
 			mvaddch(state->player.pos_y, state->player.pos_x, '@');
 			mvaddch(info_y, info_x, '\n');
 		}

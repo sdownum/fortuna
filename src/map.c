@@ -2,21 +2,21 @@
 
 #include "map.h"
 
-void gen_map(int x, int y, int size, int width)
+void gen_map(Map map)
 {
-	int orig_x = x;
+	int orig_x = map.xstart;
 	int x_len = 1;
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < map.len; i++)
 	{
-		mvaddch(y, x, '.');
+		mvaddch(map.ystart, map.xstart, '.');
 
-		if (x_len == width) {
-			x = orig_x;
+		if (x_len == map.rows) {
+			map.xstart = orig_x;
 			x_len = 1;
-			y++;
+			map.ystart++;
 		} else {
-			x++;
+			map.xstart++;
 			x_len++;
 		}
 	}
