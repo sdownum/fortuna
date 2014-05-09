@@ -110,6 +110,15 @@ void start_game(GameState *state)
 
 	gen_map(map);
 	mvaddch(state->player.pos_y, state->player.pos_x, '@');
+	mvaddstr(info_y -1, info_x, state->player.name);
+	waddstr(stdscr, " the Android\t");
+	waddstr(stdscr, "Level: ");
+	sprintf(buf, "%d", state->player.level);
+	waddstr(stdscr, buf);	
+	waddstr(stdscr, "\tHealth: ");
+	sprintf(buf, "%d", state->player.health);
+	waddstr(stdscr, buf);	
+	waddstr(stdscr, "\tArea: Testing Lab");
 	mvaddch(info_y, info_x, '\n');
 
 	if (state->player.state == PlayerStateDead) {

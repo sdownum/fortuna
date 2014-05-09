@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 	waddstr(stdscr, game.user);
 	waddwstr(stdscr, L"!\n");
 
-  start_game(&game);
+  	start_game(&game);
 
 	waddwstr(stdscr, L"Press a key to exit.\n");
 	getch();
