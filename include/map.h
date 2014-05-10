@@ -27,4 +27,11 @@ typedef struct _Map {
 	A function to create a random map for a game level.
 */
 void gen_map(Map map);
+
+//! The lookup_location function
+/*!
+	A function to report what the player is standing on.
+*/
+char lookup_location(int loc);
+
 #endif

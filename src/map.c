@@ -2,6 +2,8 @@
 
 #include "map.h"
 
+char location[256];
+
 void gen_map(Map map)
 {
 	int orig_x = map.xstart;
@@ -20,4 +22,14 @@ void gen_map(Map map)
 			x_len++;
 		}
 	}
+
+	// add a test item - the datapad
+	location[map.len - 1 - map.rows] = '#';
+	mvaddch(map.ystart-1, orig_x, '#');
+}
+
+char lookup_location(int loc) {
+	if (loc > 256 || loc < 1)
+		return ' ';
+	return location[loc];
 }

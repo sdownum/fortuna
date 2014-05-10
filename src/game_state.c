@@ -135,11 +135,14 @@ void start_game(GameState *state)
 	// game loop
 	while(state->player.state != PlayerStateDead) {
 		char move = ' ';
+		char area = ' ';
+
 		while (move != 'q') {
 			waddstr(stdscr, "Move: ");
 			waddch(stdscr, move);
 			move = getch();
 			state->player.move_count++;
+			mvaddstr(0, 40, "                      ");
 			switch (move) {
 				case 'a':
 					if (state->player.pos_x - 1 >= map.xstart)
@@ -163,6 +166,11 @@ void start_game(GameState *state)
 						waddstr(stdscr, "\n");
 						mvaddstr(0, 40, "Abandoning game...");
 						move = 'q';;		
+					break;;							
+				case '?':
+//						area = lookup_location(state->player.)
+						waddstr(stdscr, "\n");
+						mvaddstr(0, 40, "The floor...");
 					break;;
 				default:
 					state->player.move_count--;
