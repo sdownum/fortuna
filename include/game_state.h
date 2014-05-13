@@ -9,6 +9,7 @@
 
 #include "player.h"
 #include "map.h"
+#include "item.h"
 
 // Game Function Return Codes
 typedef int FSTATUS;
